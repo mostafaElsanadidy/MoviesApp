@@ -52,6 +52,22 @@ extension UIViewController : NVActivityIndicatorViewable {
         self.navigationController?.pushViewController(destVC, animated: true)
     }
     
+    func pushViewController(id:String = "" , VC:UIViewController! = nil){
+      
+        if VC != nil{
+            self.navigationController?.pushViewController(VC , animated: true)
+        }else if id != ""{
+        let homeVC = self.storyboard!.instantiateViewController(withIdentifier :id)
+        //present(homeVC, animated: true, completion: nil)
+            self.navigationController?.pushViewController(homeVC , animated: true)}
+    }
+    
+    
+    @objc func popVCFromNav(){
+        
+    self.navigationController?.popViewController(animated: true)
+    }
+    
     func nextPresent (identifier : String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destVC = storyboard.instantiateViewController(withIdentifier: identifier)

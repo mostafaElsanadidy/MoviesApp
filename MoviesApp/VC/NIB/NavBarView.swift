@@ -19,10 +19,11 @@ class NavBarView: UIView {
     */
 
        @IBOutlet var view:UIView!
-       @IBOutlet weak var notiLabelView: UIView!
-       @IBOutlet weak var notiLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var searchBttn: UIButton!
+    @IBOutlet weak var personBttn: UIButton!
+    @IBOutlet weak var backBttn: UIButton!
     
    override func awakeFromNib() {
     
@@ -57,30 +58,29 @@ class NavBarView: UIView {
 //        notiLabel.frame.size.height = 20
 //        notiLabel.frame.size.width = 20
         
-        notiLabelView
-            .layer.cornerRadius = 11
-        
         view.frame = bounds
         view.frame.size.width = UIScreen.main.bounds.width
 
+        searchBttn.isHidden = true
         self.addSubview(self.view)
     }
     
     
-    @IBAction func showOrdersCarPage(_ sender: UIButton) {
+    @IBAction func showPersonPage(_ sender: UIButton) {
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "showCarItems"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "showPersonPage"), object: nil)
     }
     
-    @IBAction func showSideMenu(_ sender: UIButton) {
-            print("bghbghbhgbhgghb")
-    //        if let enuBttn = sender as? SSMenuButton {
-    //            enuBttn.sideMenuButtonTapped()
-    //        }
-           NotificationCenter.default.post(name: Notification.Name(rawValue: "OpenOrCloseSideMenu"), object: nil)
+    @IBAction func showSearchResults(_ sender: UIButton) {
+          
+           NotificationCenter.default.post(name: Notification.Name(rawValue: "showSearchResults"), object: nil)
            //   SSSideMenuControls.openOrCloseSideMenu()
         }
     
+    @IBAction func popFromNav(_ sender: UIButton) {
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "popFromNav"), object: nil)
+    }
     
     
 }

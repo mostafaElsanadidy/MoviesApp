@@ -11,41 +11,47 @@ import Alamofire
 
 enum APIRouter: URLRequestConvertible {
     
-    case login(username:String,password:String)
-    case register(username:String,password:String,name:String,phone:String)
-    case vendor_list(vencat:String)
-    case user_orders(userid:Int)
-    case create_order(vendorID:Int , des:String , from_address:String , to_address:String , customerID:Int , image:String ,voice:String)
-    case submitCartOrder(json:Parameters)
-    case vendor_details(venid:Int)
-    case editProfile(id:Int , name:String , email:String , phone:String)
-    case edit_avatar(id:Int, avatar:String)
-    case add_address(id:Int, title:String , address:String)
+    case top_ratedMovies(apiKey:String)
+    case popularMovies(apiKey:String)
+    case upcomingMovies(apiKey:String)
+    case now_playingMovies(apiKey:String)
+    case getMovieDetails(movieID:Int,apiKey:String)
+    case getMovieRecommendations(movieID:Int,apiKey:String)
+    case getMovieCasts(movieID:Int,apiKey:String)
+    case getMovieReviews(movieID:Int,apiKey:String)
+    case getMovieVideos(movieID:Int,apiKey:String)
+    case searchMovies(query:String,apiKey:String)
+//    /movie?api_key=18f1dd9d9a6779af535c45513bd22779&query=The%20Avengers
     
     // MARK: - HTTPMethod
     private var method: HTTPMethod {
         switch self {
 //            el vend details fel post man get request w hena maktop .post ?
-        case .login , .create_order ,.vendor_details ,.register ,.editProfile ,.edit_avatar , .add_address , .submitCartOrder:
-            return .post
-        case .user_orders , .vendor_list:
+        case .top_ratedMovies , .popularMovies , .upcomingMovies , .now_playingMovies , .getMovieDetails, .getMovieRecommendations , .getMovieCasts , .getMovieVideos , .getMovieReviews , .searchMovies:
             return .get
+            
         }
     }
     
     // MARK: - Path
     private var path: String {
         switch self {
-        case .login: return "login.php"
-        case .register: return "insertcustomer.php"
-        case .create_order: return "insertorder.php"
-        case .user_orders(let userid): return "orders.php?userid=\(userid)"
-        case .vendor_details(let venid): return "vendordetail.php?venid=\(venid)"
-        case .vendor_list(let vencat) : return "vendors.php?vencat=\(vencat)"
-        case .editProfile: return "edit_profile.php"
-        case .edit_avatar: return "edit_avatar.php"
-        case .add_address: return "add_customer_adrs.php"
-        case .submitCartOrder: return "insert_order_cart.php"
+        case .top_ratedMovies(let api_key): return "/movie/top_rated?api_key=\(api_key)"
+        case .popularMovies(let api_key): return "/movie/popular?api_key=\(api_key)"
+        case .upcomingMovies(let api_key): return "/movie/upcoming?api_key=\(api_key)"
+        case .now_playingMovies(let api_key): return "/movie/now_playing?api_key=\(api_key)"
+        case .getMovieDetails(let movieID, let apiKey): return
+            "/movie/\(movieID)?api_key=\(apiKey)"
+        case .getMovieRecommendations(let movieID, let apiKey): return
+            "/movie/\(movieID)/recommendations?api_key=\(apiKey)"
+        case .getMovieCasts(let movieID, let apiKey) : return
+        "/movie/\(movieID)/casts?api_key=\(apiKey)"
+        case .getMovieReviews(let movieID, let apiKey): return
+        "/movie/\(movieID)/reviews?api_key=\(apiKey)"
+        case .getMovieVideos(let movieID, let apiKey): return
+        "/movie/\(movieID)/videos?api_key=\(apiKey)"
+        case .searchMovies(let query, let apiKey):
+            return "/search/movie?api_key=\(apiKey)&query=\(query)"
         }
     }
     
@@ -54,65 +60,16 @@ enum APIRouter: URLRequestConvertible {
     private var parameters: Parameters? {
         switch self {
             
-        case.login(let username,let password):
-            let parameters: [String:Any] = [
-            "password" : password ,
-            "username" : username
-            ]
-            return parameters
-           
-        case .register(let username , let password , let name ,let phone):
-            let parameters: [String:Any] = [
-            "password":password ,
-            "username":username ,
-            "name" : name ,
-            "phone" : phone
-            ]
-            return parameters
+//        case.login(let username,let password):
+//            let parameters: [String:Any] = [
+//            "password" : password ,
+//            "username" : username
+//            ]
+//            return parameters
             
-        case .create_order(let vendorID,let des,let from_address,let to_address,let customerID, let image, let voice) :
-            let parameters: [String:Any] = [
-              "venid":vendorID ,
-              "customerid" : customerID ,
-              "order_descar" : des ,
-              "pickup_adrs" : from_address ,
-              "delivery_adrs" : to_address ,
-              "cost": "" ,
-              "delivery_fees" : "" ,
-              "image" : image ,
-              "voicenote" : voice
-              ]
-              return parameters
-            
-            case .editProfile(let id , let name , let email , let phone ):
-                let parameters: [String:Any] = [
-                "customer_id" : id ,
-                "name" : name ,
-                "email" : email ,
-                "phone" : phone
-                ]
-                return parameters
-            
-            case .edit_avatar(let id, let avatar):
-                let parameters: [String:Any] = [
-                "customer_id" : id ,
-                "avatar" : avatar
-                ]
-                return parameters
-            
-        case .add_address(let id , let title , let address):
-            let parameters: [String:Any] = [
-             "customer_id" : id ,
-             "adrs_title" : title,
-             "address" : address
-             ]
-             return parameters
-            
-        case .submitCartOrder(let json):
-            return json
-            
-        case   .user_orders ,.vendor_details ,.vendor_list :
+        case   .top_ratedMovies ,.popularMovies ,.upcomingMovies ,.now_playingMovies ,.getMovieDetails ,.getMovieRecommendations ,.getMovieReviews ,.getMovieCasts ,.getMovieVideos ,.searchMovies :
             return nil
+       
         }
     }
     
@@ -127,12 +84,12 @@ enum APIRouter: URLRequestConvertible {
         print("URLS REQUEST :\(urlRequest)")
         
         // HTTP Method
-        urlRequest.httpMethod = method.rawValue
-        let credentialData = "ck_37baea2e07c8960059930bf348d286c7e48eb325:cs_0d74440eb12ac4726080563a4ceb0363ad5a0112".data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
-        let base64Credentials = credentialData.base64EncodedString()
-        let headers = "Basic \(base64Credentials)"
-        
-        urlRequest.setValue(headers, forHTTPHeaderField: Constants.HTTPHeaderField.authentication.rawValue)
+//        urlRequest.httpMethod = method.rawValue
+//        let credentialData = "ck_37baea2e07c8960059930bf348d286c7e48eb325:cs_0d74440eb12ac4726080563a4ceb0363ad5a0112".data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+//        let base64Credentials = credentialData.base64EncodedString()
+//        let headers = "Basic \(base64Credentials)"
+//
+//        urlRequest.setValue(headers, forHTTPHeaderField: Constants.HTTPHeaderField.authentication.rawValue)
         
         
         // Parameters
@@ -150,9 +107,9 @@ enum APIRouter: URLRequestConvertible {
         
 
 
-        if path == "login.php" || path == "edit_profile.php" || path == "edit_avatar.php" || path == "insertorder.php" || path == "add_customer_adrs.php" || path == "insert_order_cart.php"{
-            return try URLEncoding.default.encode(urlRequest, with: parameters)
-        }
+//        if path == "login.php" || path == "edit_profile.php" || path == "edit_avatar.php" || path == "insertorder.php" || path == "add_customer_adrs.php" || path == "insert_order_cart.php"{
+//            return try URLEncoding.default.encode(urlRequest, with: parameters)
+//        }
         
 
         

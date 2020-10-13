@@ -50,9 +50,10 @@ extension ReloadDelegate {
 
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginVC = storyboard.instantiateViewController(withIdentifier :"LoginVC") as! LoginVC
-        let homeVC = storyboard.instantiateViewController(withIdentifier :"HomeVC") as! HomeVC
-        let navController = UINavigationController.init(rootViewController: ad.isLoggedIn() ? homeVC  : loginVC )
+        let MainDiscoveryVC = storyboard.instantiateViewController(withIdentifier :"MainDiscoveryVC") as! MainDiscoveryVC
+        
+        let navController = UINavigationController.init(rootViewController: MainDiscoveryVC)
+        //ad.isLoggedIn() ? homeVC  : loginVC )
 
 //        let newRoot  = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootTabBar")
         

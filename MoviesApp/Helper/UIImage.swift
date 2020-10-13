@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 extension UIImage {
     func resizeImage(_ dimension: CGFloat, opaque: Bool, contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImage {
@@ -48,4 +49,33 @@ extension UIImage {
 
         return newImage
     }
+    
+}
+
+
+extension UIImageView{
+    
+    func DownloadImage(withUrl urlStr:String){
+              let url = URL(string: urlStr)
+                 let processor = DownsamplingImageProcessor(size: self.bounds.size)
+                 self.kf.indicatorType = .activity
+                 self.kf.setImage(
+                     with: url,
+                     placeholder: UIImage(named: "placeholderImage"),
+                     options: [
+                         .processor(processor),
+                         .scaleFactor(UIScreen.main.scale),
+                         .transition(.fade(1)),
+                         .cacheOriginalImage
+                     ])
+                 {
+                     result in
+                     switch result {
+                     case .success(let value):
+                         print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                     case .failure(let error):
+                         print("Job failed: \(error.localizedDescription)")
+                     }
+                 }
+          }
 }

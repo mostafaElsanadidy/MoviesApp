@@ -14,7 +14,8 @@ struct Constants {
     static let randomQueue =  DispatchQueue(label: "randomQueue", qos: .utility)
     
     struct ProductionServer {
-        static let baseURL = "http://deliver-buddy.com/api/"
+        static let baseURL = "https://api.themoviedb.org/3"
+        static let api_key = "18f1dd9d9a6779af535c45513bd22779"
     }
     
     enum APIParameters :String{

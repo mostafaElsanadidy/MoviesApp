@@ -14,9 +14,9 @@ class showAllCell: UITableViewCell {
     @IBOutlet weak var label1: UILabel!
     @IBOutlet weak var label2: UILabel!
     
-    var cellID = 0
-    
-    var updateSelectedCell_ID : ((_ selected_ID:Int) -> ())!
+    var cellTitle = ""
+//
+    var goToMovsPages : ((_ cellTitle:String) -> ())!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,7 +30,7 @@ class showAllCell: UITableViewCell {
     }
     
     @IBAction func showAllMovs(_ sender: UIButton) {
-        updateSelectedCell_ID(cellID)
+        goToMovsPages(label1.text!)
     }
     
 

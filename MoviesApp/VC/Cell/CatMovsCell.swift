@@ -10,6 +10,8 @@ import UIKit
 
 class CatMovsCell: UITableViewCell {
 
+    @IBOutlet weak var collctionView: UICollectionView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
