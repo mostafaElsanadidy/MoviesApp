@@ -1,21 +1,17 @@
 //
-//  MovieSearchCoordinator.swift
+//  MovieReviewsCoordinator.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 08.07.22.
+//  Created by mostafa elsanadidy on 09.07.22.
 //  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-protocol NavigationPerformActionDelegate {
-    func didPerformAction(with data:AnyObject)
-}
-
-class MovieSearchCoordinator:Coordinator{
+class MovieReviewsCoordinator:Coordinator{
    
-    weak var parentCoordinator : MainCoordinator?
+    weak var parentCoordinator : MovieDetailsCoordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     var data:AnyObject?{
@@ -30,19 +26,21 @@ class MovieSearchCoordinator:Coordinator{
     
     
     func start(){
-        let vc = MoviesSearchVC.instantiate()
+        let vc = MovieReviewsVC.instantiate()
         //movies
         vc.coordinator = self
-        let viewModel = MovieSearchViewModel()
-        viewModel.availableMovies = data as! [Movie_VM]
+        let viewModel = MovieReviewsList_VM()
+        guard let movieNameIDTuple:(movieName:String,movieID:Int) = data as? (movieName:String,movieID:Int) else{ return }
+        viewModel.updateMovieInfo(movieName: movieNameIDTuple.movieName,
+                                  movieID: movieNameIDTuple.movieID)
         vc.initialState(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func childShowMovieDetails(with selectedMovieID:Int){
-        let child = MovieDetailsCoordinator.init(navigationController: navigationController)
+    func childShowReviewHtmlPage(with contentUrlStr:String){
+        let child = ReviewHtmlPageCoordinator.init(navigationController: navigationController)
         //movies
-        child.data = selectedMovieID as AnyObject
+        child.data = contentUrlStr as AnyObject
         child.parentCoordinator = self
         childCoordinators.append(child)
 //        child.start()

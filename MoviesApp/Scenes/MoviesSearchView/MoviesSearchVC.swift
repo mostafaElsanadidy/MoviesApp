@@ -15,20 +15,8 @@ class MoviesSearchVC: UIViewController ,Storyboarded{
     @IBOutlet weak var collctionView: UICollectionView!
     
     weak var coordinator : MovieSearchCoordinator?
-  //  var availableMovies:[Movie_VM] = []
+
     private var moviewSearchViewModel = MovieSearchViewModel()
-    
-  //  var fetchAvailableMovies:((_ movies:[Movie_VM])->Void)!
-    
-//    init(viewModel:MovieSearchViewModel,availableMovies:[Movie_VM]) {
-//        self.moviewSearchViewModel = viewModel
-//        self.moviewSearchViewModel.availableMovies = availableMovies
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
     
     func initialState(viewModel:MovieSearchViewModel) {
         self.moviewSearchViewModel = viewModel
@@ -48,15 +36,8 @@ class MoviesSearchVC: UIViewController ,Storyboarded{
         navBarView.searchBttn.addTarget(self, action: Selector(("findMov")) , for: .touchUpInside)
         navBarView.searchBttn.isHidden = false
         
-//        fetchAvailableMovies = {
-//            [weak self] movies in
-//            guard let strongSelf = self else{return}
-//            strongSelf.loading()
-//            strongSelf.moviewSearchViewModel.fetchAvailableMovies(with: movies)
-//        }
         self.loading()
         moviewSearchViewModel.searchMovies()
-       // collctionView.reloadData()
     }
     
 
@@ -77,16 +58,6 @@ class MoviesSearchVC: UIViewController ,Storyboarded{
 //        coordinator?.didFinishSearching()
 //    }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension MoviesSearchVC:UISearchBarDelegate{
@@ -108,15 +79,6 @@ extension MoviesSearchVC:UISearchBarDelegate{
         navBarView.isHidden = false
         searchBar.isHidden = true
     }
-    
-//    funciTunesURL(searchText: String)-> URL{
-//    letescapedSearchText = searchText.addingPercentEncoding(
-//    withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-//    leturlString = String(format:
-//    "https://itunes.apple.com/search?term=%@", escapedSearchText)
-//    leturl = URL(string: urlString)
-//    returnurl!
-//    }
 }
 
 extension MoviesSearchVC:UICollectionViewDataSource{

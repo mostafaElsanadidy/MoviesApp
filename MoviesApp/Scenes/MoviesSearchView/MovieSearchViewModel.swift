@@ -13,11 +13,7 @@ final class MovieSearchViewModel{
     var movies:Observable<[Movie_VM]> = Observable([])
      var api_Key = Constants.ProductionServer.api_key
     var error:Observable<String?> = Observable(nil)
-//    var availableMovies:[Movie_VM] = []{
-//        didSet{
-//            searchMovies()
-//        }
-//    }
+
     var availableMovies:[Movie_VM] = []
     
     func searchMovies(with seacrchText:String = ""){
@@ -45,12 +41,5 @@ final class MovieSearchViewModel{
                    self.error.value = error?.localizedDescription
                })
     }
-    
-//
-//    func fetchAvailableMovies(with movies:[Movie_VM]) {
-//
-////        movies.value = NetworkHelper.shared.selectedMovies ?? []
-//        self.movies.value = movies
-//    }
     
 }

@@ -12,15 +12,15 @@ class NetworkHelper {
     
     static let shared = NetworkHelper()
     //MARK:- SAVE USER DATA
-    var movieName:String?{
-        set{self.movieName = newValue}
-        get{return self.movieName}
-    }
-    
-    var selectedMovies:[Movie_M]?{
-        set{self.selectedMovies = newValue}
-        get{return self.selectedMovies}
-    }
+//    var movieName:String?{
+//        set{self.movieName = newValue}
+//        get{return self.movieName}
+//    }
+//
+//    var selectedMovies:[Movie_M]?{
+//        set{self.selectedMovies = newValue}
+//        get{return self.selectedMovies}
+//    }
     
      var name: String?{
         didSet{
@@ -34,11 +34,11 @@ class NetworkHelper {
         }
     }
     
-     var selectedMovieID: Int?{
-        didSet{
-            UserDefaults.standard.set(selectedMovieID, forKey: "selectedMovieID")
-        }
-    }
+//     var selectedMovieID: Int?{
+//        didSet{
+//            UserDefaults.standard.set(selectedMovieID, forKey: "selectedMovieID")
+//        }
+//    }
     
      var phone: String?{
         didSet{
@@ -61,12 +61,12 @@ class NetworkHelper {
         return NetworkHelper.shared.name
     }
     
-     func getSelectedMovieID() -> Int? {
-        if let selectedMovieID = UserDefaults.standard.value(forKey: "selectedMovieID") as? Int{
-            NetworkHelper.shared.selectedMovieID = selectedMovieID
-        }
-        return NetworkHelper.shared.selectedMovieID
-    }
+//     func getSelectedMovieID() -> Int? {
+//        if let selectedMovieID = UserDefaults.standard.value(forKey: "selectedMovieID") as? Int{
+//            NetworkHelper.shared.selectedMovieID = selectedMovieID
+//        }
+//        return NetworkHelper.shared.selectedMovieID
+//    }
     
      func getUserId() -> Int? {
         if let userID = UserDefaults.standard.value(forKey: "userID") as? Int{
@@ -102,8 +102,8 @@ class NetworkHelper {
         UserDefaults.standard.removeObject(forKey: "phone")
         NetworkHelper.shared.avatar = nil
         UserDefaults.standard.removeObject(forKey: "avatar")
-        NetworkHelper.shared.selectedMovieID = nil
-        UserDefaults.standard.removeObject(forKey: "selectedMovieID")
+//        NetworkHelper.shared.selectedMovieID = nil
+//        UserDefaults.standard.removeObject(forKey: "selectedMovieID")
     }
     
     

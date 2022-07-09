@@ -43,14 +43,14 @@ class MovieReviewsList_VM{
     var error:Observable<String?> = Observable(nil)
     var api_Key = Constants.ProductionServer.api_key
     
-    func updateMovieInfo(){
-        movieName.value = NetworkHelper.shared.movieName
-        movieID.value = NetworkHelper.shared.getSelectedMovieID()
+    func updateMovieInfo(movieName:String,movieID:Int){
+        self.movieName.value = movieName
+        self.movieID.value = movieID
     }
     
     func getMovieReviews(){
             //          self.loading()
-        guard let movieID = NetworkHelper.shared.getSelectedMovieID() else { return }
+        guard let movieID = movieID.value else { return }
             APIClient.getMovieReviews(movieID: movieID,
                                       api_key: api_Key,
                                       completionHandler: { [weak self]

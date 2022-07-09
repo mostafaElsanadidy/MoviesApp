@@ -34,21 +34,22 @@ class MovieDetailsCoordinator:Coordinator{
         vc.initialState(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
-//    
-//    func childShowMovieDetails(with selectedMovieID:Int){
-//        let child = MovieSearchCoordinator.init(navigationController: navigationController)
-//        //movies
-//        child.data = movies as AnyObject
-//        child.parentCoordinator = self
-//        childCoordinators.append(child)
-////        child.start()
-//    }
     
-//    func showMoreMovies(with movies:[Movie_VM]){
-//        self.data = movies as AnyObject
-//    }
+    func childShowMovieReviews(with selectedMovieNameID:(movieName:String?,movieID:Int?)){
+        let child = MovieReviewsCoordinator.init(navigationController: navigationController)
+        //movies
+        child.data = selectedMovieNameID as AnyObject
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+    //    child.start()
+    }
     
-//    func didFinishSearching() {
-//        parentCoordinator?.childDidFinish(child: self)
-//    }
+    func childShowYoutubeVideo(with selectedYoutubeVideo:MovieVideos_VM){
+        let child = YoutubeVideoCoordinator.init(navigationController: navigationController)
+        //movies
+        child.data = selectedYoutubeVideo as AnyObject
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+    //    child.start()
+    }
 }

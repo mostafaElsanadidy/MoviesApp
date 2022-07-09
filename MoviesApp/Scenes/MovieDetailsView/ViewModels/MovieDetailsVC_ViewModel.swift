@@ -60,7 +60,6 @@ extension MovieDetailsList_VM{
       func getMovieRecommendations(){
             //        self.loading()
           guard let movieID = movieID.value else { return }
-//          guard let movieID = NetworkHelper.shared.getSelectedMovieID() else{ return }
           APIClient.getMovieRecommendations(movieID: movieID,
                                     api_key: api_Key,
                                     completionHandler: { [weak self]
@@ -85,7 +84,6 @@ extension MovieDetailsList_VM{
       func getMovieVideos(){
              //          self.loading()
           guard let movieID = movieID.value else { return }
-//          guard let movieID = NetworkHelper.shared.getSelectedMovieID() else { return  }
              APIClient.getMovieVideos(movieID: movieID,
                                        api_key: api_Key,
                                        completionHandler: { [weak self]
@@ -112,7 +110,6 @@ extension MovieDetailsList_VM{
       func getMovieCasts(){
               //            self.loading()
           guard let movieID = movieID.value else { return }
-//          guard let movieID = NetworkHelper.shared.getSelectedMovieID() else { return }
                 APIClient.getMovieCasts(movieID: movieID,
                                           api_key: api_Key,
                                           completionHandler: { [weak self]

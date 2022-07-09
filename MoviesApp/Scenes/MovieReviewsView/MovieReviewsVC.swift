@@ -14,16 +14,17 @@ class MovieReviewsVC: UIViewController, Storyboarded {
     @IBOutlet weak var tableView: UITableView!
     private var movieReviewsViewModel = MovieReviewsList_VM()
     
-    
+    weak var coordinator : MovieReviewsCoordinator?
+   func initialState(viewModel:MovieReviewsList_VM) {
+       self.movieReviewsViewModel = viewModel
+   }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupBinder()
         tableView.dataSource = self
         tableView.delegate = self
-        self.loading()
-        movieReviewsViewModel.updateMovieInfo()
-        movieReviewsViewModel.getMovieReviews()
         
         // Do any additional setup after loading the view.
     }
@@ -59,17 +60,16 @@ class MovieReviewsVC: UIViewController, Storyboarded {
             navBarView.titleLabel.isHidden = false
             navBarView.titleLabel.text = movieName + " Reviews"
         }
+        
+        movieReviewsViewModel.movieID.bind{
+            
+            [weak self] movieID in
+            guard let strongSelf = self, movieID != nil else {return}
+            strongSelf.loading()
+    //        movieReviewsViewModel.updateMovieInfo(movieName: <#String#>, movieID: <#Int#>)
+            strongSelf.movieReviewsViewModel.getMovieReviews()
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -96,10 +96,7 @@ extension MovieReviewsVC:UITableViewDataSource{
     
     func goToReviewHtmlPage(with urlStr:String){
         
-        if let reviewHtmlPage = storyboard?.instantiateViewController(identifier: "ReviewHtmlPageVC") as? ReviewHtmlPageVC{
-            reviewHtmlPage.contentUrlStr = urlStr
-            pushViewController(VC: reviewHtmlPage)
-        }
+        self.coordinator?.childShowReviewHtmlPage(with: urlStr)
     }
 }
 

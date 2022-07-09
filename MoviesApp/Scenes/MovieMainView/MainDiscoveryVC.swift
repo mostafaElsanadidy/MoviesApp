@@ -25,8 +25,6 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    //    popularMovies.append(contentsOf: comingSoonMovies)
         
         // Do any additional setup after loading the view.
         
@@ -60,13 +58,11 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
     
     func setupBinder(){
         
-//        guard let strongSelf = self else {return}
         movieMainViewModel.topRatedMovies.bind{
             [weak self] movies in
             guard let strongSelf = self else {return}
             DispatchQueue.main.async{
                 strongSelf.killLoading()
-//                    print(movies_Data)
                 strongSelf.tableView.reloadData()
                     }
         }
@@ -76,7 +72,6 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
             guard let strongSelf = self,
                   let error = error else {return}
             strongSelf.killLoading()
-           // print(error!.localizedDescription)
             strongSelf.showAlert(title: "ERROR!", message:
                                     NSLocalizedString(error, comment: "this is my mssag"))
         }
@@ -85,10 +80,8 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
             [weak self] movies in
             guard let strongSelf = self else{return}
             DispatchQueue.main.async{
-              //  print(movies)
                 strongSelf.killLoading()
                 strongSelf.tableView.reloadData()
-               
                     }
         }
         
@@ -97,11 +90,7 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
             guard let strongSelf = self else {return}
         DispatchQueue.main.async{
             strongSelf.killLoading()
-//                    print(movies_Data)
-           
-           // print(strongSelf.comingSoonMovies)
             strongSelf.tableView.reloadData()
-         //  print("bjhbhjbhjhbjhbjhbjhbjhbjhbjhbjhbjhbjh      \(strongSelf.comingSoonMovies.count) ")
         }}
         
         movieMainViewModel.NowPlayingMoviea.bind{
@@ -109,7 +98,6 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
             guard let strongSelf = self else {return}
             DispatchQueue.main.async{
                 strongSelf.killLoading()
-//                    print(movies_Data)
                 strongSelf.tableView.reloadData()
                     }
         }
@@ -176,12 +164,6 @@ extension MainDiscoveryVC:UITableViewDataSource{
                 movis = self.movieMainViewModel.NowPlayingMoviea.value
             }
             self.movieMainViewModel.selectedMovies.value = movis
-           // self.coordinator?.showMoreMovies()
-//            if let searchMoviesVC = self.storyboard?.instantiateViewController(identifier: "MoviesSearchVC") as? MoviesSearchVC{
-//        //        NetworkHelper.shared.selectedMovies = movis
-//                ....jjj
-//                self.pushViewController(VC: searchMoviesVC)
-//            }
         }
         }
         
@@ -223,7 +205,6 @@ extension MainDiscoveryVC:UITableViewDelegate{
         let identifier = tableView.cellForRow(at: indexPath)?.reuseIdentifier
                                if identifier == "showAllCell"{
                                    let nextIndx = IndexPath.init(row: indexPath.row+1, section: 0)
-                   //                indexOfLastCell = dropDownIndex.firstIndex(of: indxxo.row)!
                                    if (tableView.cellForRow(at: nextIndx)?.reuseIdentifier) != "CatMovsCell"{
                                        self.showListOfAddress(indxPath: indexPath, insertedRowsCount: 1)
                                }else{

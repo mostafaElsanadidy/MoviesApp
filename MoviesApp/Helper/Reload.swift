@@ -41,15 +41,6 @@ protocol ReloadDelegate {
 extension ReloadDelegate {
     
     func goToHomeVC(window:UIWindow) {
-        
-//        let navVC = UINavigationController()
-//        let coordinator = MainCoordinator()
-//        coordinator.navigationController = navVC
-//        let window = UnWindow (windowScene: windowScene)
-//        window.rootViewController = navVC
-//        window.makeKeyAndVisible()
-//        self.window = window
-//        coordinator.start()
 
         let transition: UIView.AnimationOptions = .transitionFlipFromLeft
         let rootviewcontroller: UIWindow = ((UIApplication.shared.delegate?.window)!)!

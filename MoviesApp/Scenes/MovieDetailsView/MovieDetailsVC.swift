@@ -26,14 +26,9 @@ class MovieDetailsVC: UIViewController, Storyboarded {
     @IBOutlet weak var movVideosCollctionView: UICollectionView!
     @IBOutlet weak var navBarView: NavBarView!
     
-  //  var movie_ID:Int!
     var movieDetailsViewModel = MovieDetailsList_VM()
- //   var api_Key = ""
- //   var recommendationsMovies:[Movie_VM] = []
-   // var movieVideos:[MovieVideos_VM] = []
-   // var castUsers:[CastUser_VM] = []
     
-     var coordinator : MovieDetailsCoordinator?
+     weak var coordinator : MovieDetailsCoordinator?
     func initialState(viewModel:MovieDetailsList_VM) {
         self.movieDetailsViewModel = viewModel
     }
@@ -42,10 +37,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-     //   print(movie_ID!)
-        
-      //  api_Key = Constants.ProductionServer.api_key
         setupBinder()
         self.loading()
         movieDetailsViewModel.getMovieDetails()
@@ -55,8 +46,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
         
         navBarView.backBttn.isHidden = false
         navBarView.backBttn.addTarget(self, action: Selector(("popVCFromNav")) , for: .touchUpInside)
-//        prodCompCollctionView.dataSource = self
-//        prodCompCollctionView.delegate = self
         print("8 *******************************************************")
     }
     
@@ -74,7 +63,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
             guard let strongSelf = self, let movieDetails = movieDetails else {return}
                       DispatchQueue.main.async{
                           strongSelf.killLoading()
-      //                    print(movies_Data)
                           strongSelf.configureSubViews(with: movieDetails)
                               }
         }
@@ -94,7 +82,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
             guard let strongSelf = self else {return}
                     DispatchQueue.main.async{
                         strongSelf.killLoading()
-    //                    print(movies_Data)
                         strongSelf.recommendCollctionView.reloadData()
                             }
         }
@@ -104,7 +91,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
             guard let strongSelf = self else{ return }
             DispatchQueue.main.async{
                 strongSelf.killLoading()
-//                    print(movies_Data)
                 strongSelf.movVideosCollctionView.reloadData()
                     }
         }
@@ -114,7 +100,6 @@ class MovieDetailsVC: UIViewController, Storyboarded {
             guard let strongSelf = self else{ return }
             DispatchQueue.main.async{
                 strongSelf.killLoading()
-//                    print(movies_Data)
                 strongSelf.prodCompCollctionView.reloadData()
                     }
         }
@@ -146,13 +131,8 @@ class MovieDetailsVC: UIViewController, Storyboarded {
     
     @IBAction func watchReviews(_ sender: UIButton) {
         
-        if let reviewsVC = storyboard?.instantiateViewController(identifier: "MovieReviewsVC") as? MovieReviewsVC{
-          //  reviewsVC.movieID = self.movie_ID!
-//            reviewsVC.movieID = NetworkHelper.shared.getSelectedMovieID()
-//            NetworkHelper.shared.selectedMovieID =
-            NetworkHelper.shared.movieName = self.movieDetailsViewModel.movieDetails.value?.title!
-            pushViewController(VC: reviewsVC)
-        }
+        self.coordinator?.childShowMovieReviews(with: (movieName: self.movieDetailsViewModel.movieDetails.value?.title,
+                                                       movieID: self.movieDetailsViewModel.movieID.value))
     }
     
 }
@@ -209,11 +189,7 @@ extension MovieDetailsVC:UICollectionViewDataSource{
             cell.movImage.DownloadImage(withUrl: movieDetailsViewModel.recommendationsMovies.value[indexPath.row].moviePosterUrlStr!)
             cell.updateSelectedCell_ID = {
                 selectedID in
-                if let MovieDetailsVC = self.storyboard!.instantiateViewController(withIdentifier :"MovieDetailsVC") as? MovieDetailsVC{
-                    NetworkHelper.shared.selectedMovieID = selectedID
-                 //   MovieDetailsVC.movie_ID = selectedID
-                    self.pushViewController(VC: MovieDetailsVC)
-                }
+                self.coordinator?.data = selectedID  as AnyObject
             }
         }
         return cell
@@ -229,10 +205,7 @@ extension MovieDetailsVC:UICollectionViewDataSource{
             cell.updateSelectedCell_ID(movieDetailsViewModel.recommendationsMovies.value[indexPath.row].id!)
         }
         else if collectionView.tag == 203{
-            if let VideoYoutubeLinkVC = storyboard?.instantiateViewController(identifier: "VideoYoutubeLinkVC") as? VideoYoutubeLinkVC{
-//                VideoYoutubeLinkVC.video_VM = movieDetails_VM.movieVideos.value[indexPath.row]
-                pushViewController(VC: VideoYoutubeLinkVC)
-            }
+            self.coordinator?.childShowYoutubeVideo(with: movieDetailsViewModel.movieVideos.value[indexPath.row])
         }
     }
     
