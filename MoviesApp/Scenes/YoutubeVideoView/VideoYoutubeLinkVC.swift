@@ -17,15 +17,14 @@ class VideoYoutubeLinkVC: UIViewController {
     
     @IBOutlet weak var webView2: WKWebView!
     
-    var video_VM:MovieVideos_VM!
+    private let viewModel = YoutubeVideoViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if let url = URL.init(string: video_VM?.videoUrlStr ?? ""){
-            webView2.load(URLRequest(url: url))}
-        videoTitleLabel.text = video_VM?.videoName ?? ""
+        setupBinder()
+        
         
         navBarView.backBttn.isHidden = false
         navBarView.backBttn.addTarget(self, action: Selector(("popVCFromNav")) , for: .touchUpInside)
@@ -35,6 +34,16 @@ class VideoYoutubeLinkVC: UIViewController {
         webView2.allowsLinkPreview = true
     }
     
+    func setupBinder(){
+        viewModel.movieVideo.bind{
+            [weak self] video in
+            guard let strongSelf = self,
+                  let movieVideo = strongSelf.viewModel.movieVideo.value else{return}
+            if let url = URL.init(string: movieVideo.videoUrlStr ?? ""){
+                strongSelf.webView2.load(URLRequest(url: url))}
+            strongSelf.videoTitleLabel.text = movieVideo.videoName ?? ""
+        }
+    }
 
     /*
     // MARK: - Navigation

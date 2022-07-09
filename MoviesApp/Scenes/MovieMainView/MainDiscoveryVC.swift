@@ -10,26 +10,27 @@ import UIKit
 import Alamofire
 import Kingfisher
 
-class MainDiscoveryVC: UIViewController {
+class MainDiscoveryVC: UIViewController,Storyboarded{
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var navBarView: NavBarView!
     
+     var coordinator : MainCoordinator?
     var cellIdentifiers:[String] = []
     var indxOf_ShowAllCells:[Int] = []
     var indxOf_MovImagCells:[Int] = []
     
-    var api_Key = ""
-    var topRatedMovies:[Movie_VM] = []
-    var popularMovies:[Movie_VM] = []
-    var comingSoonMovies:[Movie_VM] = []
-    var NowPlayingMoviea:[Movie_VM] = []
+    var movieMainViewModel = MovieList_VM()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    //    popularMovies.append(contentsOf: comingSoonMovies)
+        
         // Do any additional setup after loading the view.
+        
+        setupBinder()
         for ind in 0 ..< 4{
             cellIdentifiers.append("showAllCell")
             indxOf_ShowAllCells.append(ind)
@@ -37,12 +38,12 @@ class MainDiscoveryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        api_Key = Constants.ProductionServer.api_key
         
-        getTop_RatedMovies()
-        getPopularMovies()
-        getUpComingMovies()
-        getNowPlayingMovies()
+        self.loading()
+        movieMainViewModel.getTop_RatedMovies()
+        movieMainViewModel.getPopularMovies()
+        movieMainViewModel.getUpComingMovies()
+        movieMainViewModel.getNowPlayingMovies()
         
         navBarView.titleLabel.text = "THE MOVIES"
         navBarView.backBttn.isHidden = true
@@ -57,127 +58,72 @@ class MainDiscoveryVC: UIViewController {
            
              }
     
-
-    func getTop_RatedMovies(){
-              self.loading()
-               APIClient.getTop_RatedMovies(api_key: api_Key, completionHandler: { [weak self]
-                   movies_Data in
-                   guard let strongSelf = self else{
-                       return
-                   }
-                   
-                guard let movies_Data = movies_Data else{
-                 strongSelf.killLoading()
-                    return
-                }
-                DispatchQueue.main.async{
-                    strongSelf.killLoading()
+    func setupBinder(){
+        
+//        guard let strongSelf = self else {return}
+        movieMainViewModel.topRatedMovies.bind{
+            [weak self] movies in
+            guard let strongSelf = self else {return}
+            DispatchQueue.main.async{
+                strongSelf.killLoading()
 //                    print(movies_Data)
-                    for movie in movies_Data{
-                        strongSelf.topRatedMovies.append(Movie_VM(movieDetails: movie))
+                strongSelf.tableView.reloadData()
                     }
-                    strongSelf.tableView.reloadData()
-                        }
-               }, completionFaliure: {
-                   error in
-                   self.killLoading()
-                   print(error!.localizedDescription)
-                   self.showAlert(title: "ERROR!", message:
-                   NSLocalizedString(error!.localizedDescription, comment: "this is my mssag"))
-               })
+        }
+        
+        movieMainViewModel.error.bind{
+            [weak self] error in
+            guard let strongSelf = self,
+                  let error = error else {return}
+            strongSelf.killLoading()
+           // print(error!.localizedDescription)
+            strongSelf.showAlert(title: "ERROR!", message:
+                                    NSLocalizedString(error, comment: "this is my mssag"))
+        }
+        
+        movieMainViewModel.popularMovies.bind{
+            [weak self] movies in
+            guard let strongSelf = self else{return}
+            DispatchQueue.main.async{
+              //  print(movies)
+                strongSelf.killLoading()
+                strongSelf.tableView.reloadData()
+               
+                    }
+        }
+        
+        movieMainViewModel.comingSoonMovies.bind{
+            [weak self] movies in
+            guard let strongSelf = self else {return}
+        DispatchQueue.main.async{
+            strongSelf.killLoading()
+//                    print(movies_Data)
+           
+           // print(strongSelf.comingSoonMovies)
+            strongSelf.tableView.reloadData()
+         //  print("bjhbhjbhjhbjhbjhbjhbjhbjhbjhbjhbjhbjh      \(strongSelf.comingSoonMovies.count) ")
+        }}
+        
+        movieMainViewModel.NowPlayingMoviea.bind{
+            [weak self] movies in
+            guard let strongSelf = self else {return}
+            DispatchQueue.main.async{
+                strongSelf.killLoading()
+//                    print(movies_Data)
+                strongSelf.tableView.reloadData()
+                    }
+        }
+        
+        movieMainViewModel.selectedMovies.bind{
+            [weak self] movies in
+            guard let strongSelf = self
+                    ,!movies.isEmpty else {return}
+            DispatchQueue.main.async{
+                strongSelf.coordinator?.childShowMoreMovies(with: movies ?? [])
+            }
+        }
     }
 
-    
-    func getPopularMovies(){
-              self.loading()
-               APIClient.getPopularMovies(api_key: api_Key, completionHandler: { [weak self]
-                   movies_Data in
-                   guard let strongSelf = self else{
-                       return
-                   }
-                   
-                guard let movies_Data = movies_Data else{
-                 strongSelf.killLoading()
-                    return
-                }
-                DispatchQueue.main.async{
-                    
-                    print(movies_Data)
-                    strongSelf.killLoading()
-                    for movie in movies_Data{
-                        strongSelf.popularMovies.append(Movie_VM(movieDetails: movie))
-                    }
-                    strongSelf.tableView.reloadData()
-                   
-                        }
-               }, completionFaliure: {
-                   error in
-                   self.killLoading()
-                   print(error!.localizedDescription)
-                   self.showAlert(title: "ERROR!", message:
-                   NSLocalizedString(error!.localizedDescription, comment: "this is my mssag"))
-               })
-    }
-    
-    func getUpComingMovies(){
-                  self.loading()
-                   APIClient.getUpcomingMovies(api_key: api_Key, completionHandler: { [weak self]
-                       movies_Data in
-                       guard let strongSelf = self else{
-                           return
-                       }
-                       
-                    guard let movies_Data = movies_Data else{
-                     strongSelf.killLoading()
-                        return
-                    }
-                    DispatchQueue.main.async{
-                        strongSelf.killLoading()
-    //                    print(movies_Data)
-                        for movie in movies_Data{
-                            strongSelf.comingSoonMovies.append(Movie_VM(movieDetails: movie))
-                        }
-                        print(strongSelf.comingSoonMovies)
-                        strongSelf.tableView.reloadData()
-                       print("bjhbhjbhjhbjhbjhbjhbjhbjhbjhbjhbjhbjh      \(strongSelf.comingSoonMovies.count) ")
-                            }
-                   }, completionFaliure: {
-                       error in
-                       self.killLoading()
-                       print(error!.localizedDescription)
-                       self.showAlert(title: "ERROR!", message:
-                       NSLocalizedString(error!.localizedDescription, comment: "this is my mssag"))
-                   })
-        }
-   
-    func getNowPlayingMovies(){
-                  self.loading()
-                   APIClient.getPlayingNowMovies(api_key: api_Key, completionHandler: { [weak self]
-                       movies_Data in
-                       guard let strongSelf = self else{
-                           return
-                       }
-                       
-                    guard let movies_Data = movies_Data else{
-                     strongSelf.killLoading()
-                        return
-                    }
-                    DispatchQueue.main.async{
-                        strongSelf.killLoading()
-    //                    print(movies_Data)
-                        for movie in movies_Data{
-                            strongSelf.NowPlayingMoviea.append(Movie_VM(movieDetails: movie))
-                        }
-                        strongSelf.tableView.reloadData()
-                            }
-                   }, completionFaliure: {
-                       error in
-                       self.killLoading()
-                       print(error!.localizedDescription)
-                       self.showAlert(title: "ERROR!", message:
-                       NSLocalizedString(error!.localizedDescription, comment: "this is my mssag"))
-                   })
-        }
     
 }
 
@@ -221,19 +167,21 @@ extension MainDiscoveryVC:UITableViewDataSource{
             
             switch str {
             case "Top Rated":
-                movis = self.topRatedMovies
+                movis = self.movieMainViewModel.topRatedMovies.value
             case "Popular":
-                movis = self.popularMovies
+                movis = self.movieMainViewModel.popularMovies.value
             case "Coming":
-                movis = self.comingSoonMovies
+                movis = self.movieMainViewModel.comingSoonMovies.value
             default:
-                movis = self.NowPlayingMoviea
+                movis = self.movieMainViewModel.NowPlayingMoviea.value
             }
-            
-            if let searchMoviesVC = self.storyboard?.instantiateViewController(identifier: "MoviesSearchVC") as? MoviesSearchVC{
-                searchMoviesVC.movies_Details = movis
-                self.pushViewController(VC: searchMoviesVC)
-            }
+            self.movieMainViewModel.selectedMovies.value = movis
+           // self.coordinator?.showMoreMovies()
+//            if let searchMoviesVC = self.storyboard?.instantiateViewController(identifier: "MoviesSearchVC") as? MoviesSearchVC{
+//        //        NetworkHelper.shared.selectedMovies = movis
+//                ....jjj
+//                self.pushViewController(VC: searchMoviesVC)
+//            }
         }
         }
         
@@ -356,13 +304,13 @@ extension MainDiscoveryVC:UICollectionViewDataSource{
         
         switch collectionView.tag {
         case 0:
-            movies = topRatedMovies
+            movies = movieMainViewModel.topRatedMovies.value
         case 1:
-            movies = popularMovies
+            movies = movieMainViewModel.popularMovies.value
         case 2:
-            movies = comingSoonMovies
+            movies = movieMainViewModel.comingSoonMovies.value
         default:
-            movies = NowPlayingMoviea
+            movies = movieMainViewModel.NowPlayingMoviea.value
         }
         return movies.count
     }
@@ -375,23 +323,20 @@ extension MainDiscoveryVC:UICollectionViewDataSource{
         
         switch collectionView.tag {
         case 0:
-            movies = topRatedMovies
+            movies = movieMainViewModel.topRatedMovies.value
         case 1:
-            movies = popularMovies
+            movies = movieMainViewModel.popularMovies.value
         case 2:
-            movies = comingSoonMovies
+            movies = movieMainViewModel.comingSoonMovies.value
         default:
-            movies = NowPlayingMoviea
+            movies = movieMainViewModel.NowPlayingMoviea.value
         }
         
         if let cell = cell as? movImageCell{
             cell.movImage.DownloadImage(withUrl: movies[indexPath.row].moviePosterUrlStr!)
             cell.updateSelectedCell_ID = {
                 selectedID in
-                if let MovieDetailsVC = self.storyboard!.instantiateViewController(withIdentifier :"MovieDetailsVC") as? MovieDetailsVC{
-                    MovieDetailsVC.movie_ID = selectedID
-                    self.pushViewController(VC: MovieDetailsVC)
-                }
+                self.coordinator?.childShowMovieDetails(with: selectedID)
             }
         }
         return cell
@@ -407,13 +352,13 @@ extension MainDiscoveryVC:UICollectionViewDataSource{
         
         switch collectionView.tag {
         case 0:
-            movies = topRatedMovies
+            movies = movieMainViewModel.topRatedMovies.value
         case 1:
-            movies = popularMovies
+            movies = movieMainViewModel.popularMovies.value
         case 2:
-            movies = comingSoonMovies
+            movies = movieMainViewModel.comingSoonMovies.value
         default:
-            movies = NowPlayingMoviea
+            movies = movieMainViewModel.NowPlayingMoviea.value
         }
         
         if let cell = collectionView.cellForItem(at: indexPath) as? movImageCell{

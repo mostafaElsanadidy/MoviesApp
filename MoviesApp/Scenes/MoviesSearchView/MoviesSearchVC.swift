@@ -8,19 +8,37 @@
 
 import UIKit
 
-class MoviesSearchVC: UIViewController {
+class MoviesSearchVC: UIViewController ,Storyboarded{
 
     @IBOutlet weak var navBarView: NavBarView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collctionView: UICollectionView!
     
-    var movies_Details:[Movie_VM] = []
-     var api_Key = ""
+    weak var coordinator : MovieSearchCoordinator?
+  //  var availableMovies:[Movie_VM] = []
+    private var moviewSearchViewModel = MovieSearchViewModel()
+    
+  //  var fetchAvailableMovies:((_ movies:[Movie_VM])->Void)!
+    
+//    init(viewModel:MovieSearchViewModel,availableMovies:[Movie_VM]) {
+//        self.moviewSearchViewModel = viewModel
+//        self.moviewSearchViewModel.availableMovies = availableMovies
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
+    func initialState(viewModel:MovieSearchViewModel) {
+        self.moviewSearchViewModel = viewModel
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupBinder()
         collctionView.dataSource = self
         collctionView.delegate = self
         
@@ -29,12 +47,35 @@ class MoviesSearchVC: UIViewController {
                navBarView.backBttn.addTarget(self, action: Selector(("popVCFromNav")) , for: .touchUpInside)
         navBarView.searchBttn.addTarget(self, action: Selector(("findMov")) , for: .touchUpInside)
         navBarView.searchBttn.isHidden = false
-        collctionView.reloadData()
-    
-        api_Key = Constants.ProductionServer.api_key
+        
+//        fetchAvailableMovies = {
+//            [weak self] movies in
+//            guard let strongSelf = self else{return}
+//            strongSelf.loading()
+//            strongSelf.moviewSearchViewModel.fetchAvailableMovies(with: movies)
+//        }
+        self.loading()
+        moviewSearchViewModel.searchMovies()
+       // collctionView.reloadData()
     }
     
 
+    func setupBinder(){
+        moviewSearchViewModel.movies.bind{
+            [weak self] movies in
+            guard let strongSelf = self else{return}
+            DispatchQueue.main.async{
+                strongSelf.killLoading()
+                strongSelf.collctionView.reloadData()
+            }
+        }
+    }
+    
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        coordinator?.didFinishSearching()
+//    }
     
     /*
     // MARK: - Navigation
@@ -60,7 +101,7 @@ extension MoviesSearchVC:UISearchBarDelegate{
         navBarView.isHidden = false
         searchBar.isHidden = true
         
-        searchMovies(with: searchBar.text!.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
+        moviewSearchViewModel.searchMovies(with: searchBar.text!.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -68,38 +109,6 @@ extension MoviesSearchVC:UISearchBarDelegate{
         searchBar.isHidden = true
     }
     
-    func searchMovies(with seacrchText:String){
-              self.loading()
-               APIClient.searchMovies(query: seacrchText, api_key: api_Key, completionHandler: { [weak self]
-                   movies_Data in
-                   guard let strongSelf = self else{
-                       return
-                   }
-                   
-                guard let movies_Data = movies_Data else{
-                 strongSelf.killLoading()
-                    return
-                }
-                DispatchQueue.main.async{
-                    
-                    print(movies_Data)
-                    strongSelf.killLoading()
-                    var movies = [Movie_VM]()
-                    for movie in movies_Data{
-                        movies.append(Movie_VM(movieDetails: movie))
-                    }
-                    strongSelf.movies_Details = movies
-                    strongSelf.collctionView.reloadData()
-                   
-                        }
-               }, completionFaliure: {
-                   error in
-                   self.killLoading()
-                   print(error!.localizedDescription)
-                   self.showAlert(title: "ERROR!", message:
-                   NSLocalizedString(error!.localizedDescription, comment: "this is my mssag"))
-               })
-    }
 //    funciTunesURL(searchText: String)-> URL{
 //    letescapedSearchText = searchText.addingPercentEncoding(
 //    withAllowedCharacters: CharacterSet.urlQueryAllowed)!
@@ -109,23 +118,22 @@ extension MoviesSearchVC:UISearchBarDelegate{
 //    returnurl!
 //    }
 }
+
 extension MoviesSearchVC:UICollectionViewDataSource{
    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies_Details.count 
+        return moviewSearchViewModel.movies.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movImageCell", for: indexPath)
         if let cell = cell as? movImageCell{
-            cell.movImage.DownloadImage(withUrl: movies_Details[indexPath.row].moviePosterUrlStr ?? "" )
+            let movieDetails = moviewSearchViewModel.movies.value[indexPath.row]
+            cell.movImage.DownloadImage(withUrl: movieDetails.moviePosterUrlStr ?? "" )
                    cell.updateSelectedCell_ID = {
                        selectedID in
-                       if let MovieDetailsVC = self.storyboard!.instantiateViewController(withIdentifier :"MovieDetailsVC") as? MovieDetailsVC{
-                           MovieDetailsVC.movie_ID = selectedID
-                           self.pushViewController(VC: MovieDetailsVC)
-                       }
+                       self.coordinator?.childShowMovieDetails(with: selectedID)
                    }
                }
         return cell
@@ -136,8 +144,8 @@ extension MoviesSearchVC:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collctionView.cellForItem(at: indexPath),
             let cell2 = cell as? movImageCell{
-            cell2.updateSelectedCell_ID(movies_Details[
-                indexPath.row].id!)
+            let movieDetails = moviewSearchViewModel.movies.value[indexPath.row]
+            cell2.updateSelectedCell_ID(movieDetails.id!)
         }
         
     }
@@ -146,15 +154,20 @@ extension MoviesSearchVC:UICollectionViewDataSource{
 extension MoviesSearchVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
 
 func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-
-    let height:CGFloat = 200
-    let paddingSpace:CGFloat = 10*2
-          
-          let availableWidth = collectionView.frame.size.width - paddingSpace
-          let widthPerItem = availableWidth / 2
     
-    return CGSize(width: widthPerItem,height: height)
+    
+    var numberOfItemsInRow,edgeInset:CGFloat
+    
+        
+         edgeInset = 10
+         numberOfItemsInRow = 2
+   
+    
+    let paddingSpace = edgeInset*(numberOfItemsInRow+1)
+    let availableWidth = collectionView.frame.size.width-paddingSpace
+    let widthPerItem = availableWidth/numberOfItemsInRow
+   
+    return CGSize(width: widthPerItem,height: 180)
   }
 
 

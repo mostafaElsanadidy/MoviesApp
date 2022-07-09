@@ -10,74 +10,100 @@ import Foundation
 
 class NetworkHelper {
     
-    
+    static let shared = NetworkHelper()
     //MARK:- SAVE USER DATA
-    static var name: String?{
+    var movieName:String?{
+        set{self.movieName = newValue}
+        get{return self.movieName}
+    }
+    
+    var selectedMovies:[Movie_M]?{
+        set{self.selectedMovies = newValue}
+        get{return self.selectedMovies}
+    }
+    
+     var name: String?{
         didSet{
             UserDefaults.standard.set(name, forKey: "name")
         }
     }
     
-    static var userID: Int?{
+     var userID: Int?{
         didSet{
             UserDefaults.standard.set(userID, forKey: "userID")
         }
     }
     
-    static var phone: String?{
+     var selectedMovieID: Int?{
+        didSet{
+            UserDefaults.standard.set(selectedMovieID, forKey: "selectedMovieID")
+        }
+    }
+    
+     var phone: String?{
         didSet{
             UserDefaults.standard.set(phone, forKey: "phone")
         }
         
     }
-    static var avatar: String?{
+    
+     var avatar: String?{
         didSet{
             UserDefaults.standard.set(avatar, forKey: "avatar")
         }
     }
     
     //MARK:- GET USER DATA
-    static func getName() -> String? {
+     func getName() -> String? {
         if let name = UserDefaults.standard.value(forKey: "name") as? String{
-            NetworkHelper.name = name
+            NetworkHelper.shared.name = name
         }
-        return NetworkHelper.name
+        return NetworkHelper.shared.name
     }
     
-    static func getUserId() -> Int? {
+     func getSelectedMovieID() -> Int? {
+        if let selectedMovieID = UserDefaults.standard.value(forKey: "selectedMovieID") as? Int{
+            NetworkHelper.shared.selectedMovieID = selectedMovieID
+        }
+        return NetworkHelper.shared.selectedMovieID
+    }
+    
+     func getUserId() -> Int? {
         if let userID = UserDefaults.standard.value(forKey: "userID") as? Int{
-            NetworkHelper.userID = userID
+            NetworkHelper.shared.userID = userID
         }
-        return NetworkHelper.userID
+        return NetworkHelper.shared.userID
     }
     
     
-    static func getPhone() -> String? {
+     func getPhone() -> String? {
         if let phone = UserDefaults.standard.value(forKey: "phone") as? String{
-            NetworkHelper.phone = phone
+            NetworkHelper.shared.phone = phone
         }
-        return NetworkHelper.phone
+        return NetworkHelper.shared.phone
     }
     
-    static func getAvatar() -> String? {
+     func getAvatar() -> String? {
         if let avatar = UserDefaults.standard.value(forKey: "avatar") as? String{
-            NetworkHelper.avatar = avatar
+            NetworkHelper.shared.avatar = avatar
         }
-        return NetworkHelper.avatar
+        return NetworkHelper.shared.avatar
     }
     
     
     
-    static func userLogout() {
+     func userLogout() {
         UserDefaults.standard.set(nil, forKey: "Logged")
-        NetworkHelper.name = nil
+        NetworkHelper.shared.name = nil
         UserDefaults.standard.removeObject(forKey: "name")
-        NetworkHelper.userID = nil
+        NetworkHelper.shared.userID = nil
         UserDefaults.standard.removeObject(forKey: "userID")
-        NetworkHelper.phone = nil
+        NetworkHelper.shared.phone = nil
         UserDefaults.standard.removeObject(forKey: "phone")
-        NetworkHelper.avatar = nil
+        NetworkHelper.shared.avatar = nil
         UserDefaults.standard.removeObject(forKey: "avatar")
+        NetworkHelper.shared.selectedMovieID = nil
+        UserDefaults.standard.removeObject(forKey: "selectedMovieID")
     }
     
     

@@ -52,3 +52,4 @@ class MovieDetails_VM{
         }
     }
 }
+

@@ -29,3 +29,9 @@ class MovieVideos_VM{
         videoImagUrlStr = "https://img.youtube.com/vi/\(videoDetails.key ?? "")/0.jpg"
     }
 }
+
+
+class MovieVideosList_VM{
+    
+    var movieVideos:Observable<[MovieVideos_VM]> = Observable([])
+}

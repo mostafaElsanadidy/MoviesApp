@@ -42,6 +42,14 @@ extension ReloadDelegate {
     
     func goToHomeVC(window:UIWindow) {
         
+//        let navVC = UINavigationController()
+//        let coordinator = MainCoordinator()
+//        coordinator.navigationController = navVC
+//        let window = UnWindow (windowScene: windowScene)
+//        window.rootViewController = navVC
+//        window.makeKeyAndVisible()
+//        self.window = window
+//        coordinator.start()
 
         let transition: UIView.AnimationOptions = .transitionFlipFromLeft
         let rootviewcontroller: UIWindow = ((UIApplication.shared.delegate?.window)!)!
@@ -49,10 +57,14 @@ extension ReloadDelegate {
         nav1.navigationBar.tintColor = #colorLiteral(red: 0.7997059226, green: 0.6618819237, blue: 0.3807252049, alpha: 1)
 
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let MainDiscoveryVC = storyboard.instantiateViewController(withIdentifier :"MainDiscoveryVC") as! MainDiscoveryVC
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let mainDiscoveryVC = storyboard.instantiateViewController(withIdentifier :"MainDiscoveryVC") as! MainDiscoveryVC
+//
+      //  let navController = UINavigationController.init(rootViewController: MainDiscoveryVC.instantiate())
         
-        let navController = UINavigationController.init(rootViewController: MainDiscoveryVC)
+        let navController = UINavigationController()
+        let coordinator = MainCoordinator.init(navigationController: navController)
+        
         //ad.isLoggedIn() ? homeVC  : loginVC )
 
 //        let newRoot  = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RootTabBar")
@@ -74,6 +86,7 @@ extension ReloadDelegate {
         } else {
             // Fallback on earlier versions
         }
+        coordinator.start()
 
         let mainwindow = (UIApplication.shared.delegate?.window!)!
         UIView.transition(with: mainwindow, duration: 0.55001, options: transition, animations: { () -> Void in

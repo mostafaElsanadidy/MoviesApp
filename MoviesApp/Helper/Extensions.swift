@@ -119,9 +119,9 @@ extension String {
 extension UIViewController {
 
     func saveUserData(name:String , phone:String , userid:Int) {
-        NetworkHelper.name = name
-        NetworkHelper.phone = phone
-        NetworkHelper.userID = userid
+                    NetworkHelper.shared.name = name
+                    NetworkHelper.shared.phone = phone
+                    NetworkHelper.shared.userID = userid
     }
     
 }

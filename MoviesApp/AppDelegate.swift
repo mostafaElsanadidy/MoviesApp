@@ -13,10 +13,12 @@ import MOLH
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, ReloadDelegate {
     
+  //  var coordinator:MainCoordinator?
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         goToHomeVC(window:window!)
         IQKeyboardManager.shared.enable = true
