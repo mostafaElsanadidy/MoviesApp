@@ -58,13 +58,14 @@ class MainCoordinator:NSObject,Coordinator {
 
 extension MainCoordinator : UINavigationControllerDelegate {
     
-    func navigationController (_ navigationController:
-    UINavigationController, didShow viewController:
-                               UIViewController, animated: Bool){
+    func navigationController (_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool){
         guard let fromViewController = navigationController.transitionCoordinator?.viewController( forKey:.from) else{return}
         if navigationController.viewControllers.contains(fromViewController)
             {return}
         if let moviesSearchVC = fromViewController as? MoviesSearchVC{
             childDidFinish(child: moviesSearchVC.coordinator)}
     }
+    
+    
+    
 }

@@ -2,8 +2,8 @@
 //  Extensions.swift
 //  MadeinKW-Driver
 //
-//  Created by Amir on 4/17/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 4/17/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
@@ -76,7 +76,7 @@ extension UIViewController : NVActivityIndicatorViewable {
     
    func loading(){
         let color = UIColor(red: 52/255.0, green: 87/255.0, blue: 183/255.0, alpha: 1.0)
-        startAnimating(nil, message: nil, messageFont: nil, type: .circleStrokeSpin, color: color , padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: .clear, textColor: nil, fadeInAnimation: nil)
+        startAnimating(nil, message: nil, messageFont: nil, type: .ballTrianglePath, color: color , padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: .clear, textColor: nil, fadeInAnimation: nil)
     }
     
     func killLoading(){

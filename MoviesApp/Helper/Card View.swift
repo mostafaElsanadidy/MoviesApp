@@ -2,8 +2,8 @@
 //  Card View.swift
 //  MadeInKuwait
 //
-//  Created by Amir on 2/6/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 2/6/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit

@@ -2,24 +2,20 @@
 //  NetworkHelper.swift
 //  MadeInKuwait
 //
-//  Created by Amir on 3/14/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 3/14/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import Foundation
 
 class NetworkHelper {
     
+    //MARK: - singleton
     static let shared = NetworkHelper()
-    //MARK:- SAVE USER DATA
+    //MARK: - SAVE USER DATA
 //    var movieName:String?{
 //        set{self.movieName = newValue}
 //        get{return self.movieName}
-//    }
-//
-//    var selectedMovies:[Movie_M]?{
-//        set{self.selectedMovies = newValue}
-//        get{return self.selectedMovies}
 //    }
     
      var name: String?{
@@ -33,13 +29,7 @@ class NetworkHelper {
             UserDefaults.standard.set(userID, forKey: "userID")
         }
     }
-    
-//     var selectedMovieID: Int?{
-//        didSet{
-//            UserDefaults.standard.set(selectedMovieID, forKey: "selectedMovieID")
-//        }
-//    }
-    
+
      var phone: String?{
         didSet{
             UserDefaults.standard.set(phone, forKey: "phone")
@@ -60,14 +50,7 @@ class NetworkHelper {
         }
         return NetworkHelper.shared.name
     }
-    
-//     func getSelectedMovieID() -> Int? {
-//        if let selectedMovieID = UserDefaults.standard.value(forKey: "selectedMovieID") as? Int{
-//            NetworkHelper.shared.selectedMovieID = selectedMovieID
-//        }
-//        return NetworkHelper.shared.selectedMovieID
-//    }
-    
+
      func getUserId() -> Int? {
         if let userID = UserDefaults.standard.value(forKey: "userID") as? Int{
             NetworkHelper.shared.userID = userID
@@ -102,8 +85,6 @@ class NetworkHelper {
         UserDefaults.standard.removeObject(forKey: "phone")
         NetworkHelper.shared.avatar = nil
         UserDefaults.standard.removeObject(forKey: "avatar")
-//        NetworkHelper.shared.selectedMovieID = nil
-//        UserDefaults.standard.removeObject(forKey: "selectedMovieID")
     }
     
     

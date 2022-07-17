@@ -2,8 +2,8 @@
 //  MovieDetails_VM.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/12/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 06.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import Foundation
@@ -33,23 +33,39 @@ class MovieDetails_VM{
     func configureSubViews(with movieDetails:MovieDetails_M){
         
         title = movieDetails.title ?? ""
-        moviePosterUrlStr = "http://image.tmdb.org/t/p/original\(movieDetails.poster_path!)"
-        var genres:[String] = []
-        for genre in movieDetails.genres!{
-            genres.append(genre.name!)
+        moviePosterUrlStr = ""
+        if let poster_path = movieDetails.poster_path {
+            moviePosterUrlStr = "http://image.tmdb.org/t/p/original\(poster_path)"
         }
-        movieGenre = genres.map { String($0) }.joined(separator: ",")
-        movieBackgroundUrlStr = "http://image.tmdb.org/t/p/original\(movieDetails.backdrop_path ?? "")"
+        
+        var movieDetailsGenres:[String] = []
+        if let genres = movieDetails.genres{
+        for genre in genres{
+            movieDetailsGenres.append(genre.name ?? "")
+        }}
+        movieGenre = movieDetailsGenres.filter{ $0 != ""
+          }.map{String($0)}.joined(separator: ",")
+        movieBackgroundUrlStr = ""
+        if let backdrop_path = movieDetails.backdrop_path {
+            movieBackgroundUrlStr = "http://image.tmdb.org/t/p/original\(backdrop_path)"
+        }
         movieOverview = movieDetails.overview
-        movieRating_Review = String(movieDetails.vote_average!)
-        let hours = String(movieDetails.runtime!/60)
-        let minutes = String(movieDetails.runtime!%60)
-        movieRuntime = "\(hours) hours, \(minutes) minutes"
-        movieReleaseDate = movieDetails.release_date!
-        production_companies = []
-        for company in movieDetails.production_companies{
-            production_companies?.append( ProductionCompany_VM.init(productionCompany: company))
+        if let vote_average = movieDetails.vote_average {
+            movieRating_Review = String(vote_average)
         }
+        if let runtime = movieDetails.runtime {
+            let hours = String(runtime/60)
+            let minutes = String(runtime%60)
+            movieRuntime = "\(hours) hours, \(minutes) minutes"
+        }
+        if let release_date = movieDetails.release_date {
+            movieReleaseDate = release_date
+        }
+        production_companies = []
+        production_companies = movieDetails.production_companies.map{ProductionCompany_VM(productionCompany: $0)}
+//        for company in movieDetails.production_companies{
+//            production_companies?.append( ProductionCompany_VM.init(productionCompany: company))
+//        }
     }
 }
 

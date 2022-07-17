@@ -2,11 +2,12 @@
 //  MovieDetailsVC.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/10/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 04.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class MovieDetailsVC: UIViewController, Storyboarded {
 
@@ -26,7 +27,8 @@ class MovieDetailsVC: UIViewController, Storyboarded {
     @IBOutlet weak var movVideosCollctionView: UICollectionView!
     @IBOutlet weak var navBarView: NavBarView!
     
-    var movieDetailsViewModel = MovieDetailsList_VM()
+    @IBOutlet weak var activityView: NVActivityIndicatorView!
+    private var movieDetailsViewModel = MovieDetailsList_VM()
     
      weak var coordinator : MovieDetailsCoordinator?
     func initialState(viewModel:MovieDetailsList_VM) {
@@ -38,12 +40,19 @@ class MovieDetailsVC: UIViewController, Storyboarded {
 
         // Do any additional setup after loading the view.
         setupBinder()
-        self.loading()
-        movieDetailsViewModel.getMovieDetails()
-        movieDetailsViewModel.getMovieRecommendations()
-        movieDetailsViewModel.getMovieVideos()
-        movieDetailsViewModel.getMovieCasts()
         
+       
+        view.bringSubviewToFront(activityView)
+//        activityView.startAnimating()
+       
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.001, execute: {
+//            self.view.viewWithTag(200)?.isHidden = true
+            self.loading()
+            self.movieDetailsViewModel.viewDidLoad()
+        })
+//        self.loading()
+        
+        view.viewWithTag(200)?.isHidden = true
         navBarView.backBttn.isHidden = false
         navBarView.backBttn.addTarget(self, action: Selector(("popVCFromNav")) , for: .touchUpInside)
         print("8 *******************************************************")
@@ -62,6 +71,7 @@ class MovieDetailsVC: UIViewController, Storyboarded {
             [weak self] movieDetails in
             guard let strongSelf = self, let movieDetails = movieDetails else {return}
                       DispatchQueue.main.async{
+                          strongSelf.view.viewWithTag(200)?.isHidden = false
                           strongSelf.killLoading()
                           strongSelf.configureSubViews(with: movieDetails)
                               }

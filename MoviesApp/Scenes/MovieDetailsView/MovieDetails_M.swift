@@ -2,8 +2,8 @@
 //  MovieDetails_M.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/11/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 05.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import Foundation

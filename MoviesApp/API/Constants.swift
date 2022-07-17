@@ -2,8 +2,8 @@
 //  Constants.swift
 //  MadeInKuwait
 //
-//  Created by Amir on 1/29/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 1/29/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import Alamofire

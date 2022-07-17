@@ -34,6 +34,7 @@
 		ED8CEDF828765212004CF30F /* YoutubeVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CEDF728765212004CF30F /* YoutubeVideoViewModel.swift */; };
 		ED8CFA92287A230C00D36A29 /* YoutubeVideoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8CFA91287A230C00D36A29 /* YoutubeVideoCoordinator.swift */; };
 		ED8E4FEA2875B0C300993E66 /* MovieDetailsVC_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8E4FE92875B0C300993E66 /* MovieDetailsVC_ViewModel.swift */; };
+		ED94513628841C5A006FF1DC /* AppDelegate_S.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED94513528841C5A006FF1DC /* AppDelegate_S.swift */; };
 		ED9E24782876F9F6000B1E2C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9E24772876F9F6000B1E2C /* Coordinator.swift */; };
 		EDB88B0E28779BD30009C7A7 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB88B0D28779BD30009C7A7 /* Storyboarded.swift */; };
 		EDBD2B522535018200BD002C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDBD2B512535018100BD002C /* WebKit.framework */; };
@@ -100,6 +101,7 @@
 		ED8CEDF728765212004CF30F /* YoutubeVideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoViewModel.swift; sourceTree = "<group>"; };
 		ED8CFA91287A230C00D36A29 /* YoutubeVideoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoCoordinator.swift; sourceTree = "<group>"; };
 		ED8E4FE92875B0C300993E66 /* MovieDetailsVC_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsVC_ViewModel.swift; sourceTree = "<group>"; };
+		ED94513528841C5A006FF1DC /* AppDelegate_S.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate_S.swift; sourceTree = "<group>"; };
 		ED9E24772876F9F6000B1E2C /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		EDB88B0D28779BD30009C7A7 /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
 		EDBD2B512535018100BD002C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -305,6 +307,7 @@
 				EDE299C22531EB39004D69A5 /* Helper */,
 				EDE299AE2531DA6A004D69A5 /* AppDelegate.swift */,
 				EDE299B02531DA6A004D69A5 /* SceneDelegate.swift */,
+				ED94513528841C5A006FF1DC /* AppDelegate_S.swift */,
 				EDE299B42531DA6B004D69A5 /* Main.storyboard */,
 				EDE299B72531DB79004D69A5 /* Assets.xcassets */,
 				EDE299B92531DB7A004D69A5 /* LaunchScreen.storyboard */,
@@ -423,7 +426,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "mostafa elsanadidy";
 				TargetAttributes = {
 					EDE299AA2531DA69004D69A5 = {
@@ -544,6 +547,7 @@
 				ED8CEDF828765212004CF30F /* YoutubeVideoViewModel.swift in Sources */,
 				EDFBBDC32879ECA400DE0D39 /* MovieReviewsCoordinator.swift in Sources */,
 				EDE299D32531EC0A004D69A5 /* Constants.swift in Sources */,
+				ED94513628841C5A006FF1DC /* AppDelegate_S.swift in Sources */,
 				EDE299CB2531EB98004D69A5 /* Reload.swift in Sources */,
 				ED4B1F2C253438C5000B09DE /* MovieDetails_VM.swift in Sources */,
 				EDE299E12531EC7C004D69A5 /* UILabelX.swift in Sources */,
@@ -620,6 +624,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -681,6 +686,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -2,8 +2,8 @@
 //  UIImage.swift
 //  MadeInKuwait
 //
-//  Created by Amir on 2/7/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 2/7/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
@@ -67,15 +67,15 @@ extension UIImageView{
                          .scaleFactor(UIScreen.main.scale),
                          .transition(.fade(1)),
                          .cacheOriginalImage
-                     ])
-                 {
-                     result in
-                     switch result {
-                     case .success(let value):
-                         print("Task done for: \(value.source.url?.absoluteString ?? "")")
-                     case .failure(let error):
-                         print("Job failed: \(error.localizedDescription)")
-                     }
-                 }
+                     ], completionHandler:
+                        {
+                            result in
+                            switch result {
+                            case .success(let value):
+                                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                            case .failure(let error):
+                                print("Job failed: \(error.localizedDescription)")
+                            }
+                        })
           }
 }

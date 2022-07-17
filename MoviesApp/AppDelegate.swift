@@ -2,12 +2,13 @@
 //  AppDelegate.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/10/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 04.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
 import IQKeyboardManagerSwift
+import NVActivityIndicatorView
 import MOLH
 
 @UIApplicationMain
@@ -16,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReloadDelegate {
   //  var coordinator:MainCoordinator?
     var window: UIWindow?
 
+    let activityData = ActivityData(size: CGSize(width: 20, height: 20), message: nil, messageFont: .none, messageSpacing: 0, type: .lineSpinFadeLoader, color: .black, padding: 0, displayTimeThreshold: 0, minimumDisplayTime: 3, backgroundColor:.clear
+        , textColor: .clear)
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -61,6 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReloadDelegate {
 
 }
 
-let ad = UIApplication.shared.delegate as! AppDelegate
+
 
 

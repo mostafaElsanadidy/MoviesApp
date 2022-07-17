@@ -2,8 +2,8 @@
 //  MoviesSearchVC.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/12/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 06.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
@@ -33,11 +33,14 @@ class MoviesSearchVC: UIViewController ,Storyboarded{
         searchBar.delegate = self
         navBarView.backBttn.isHidden = false
                navBarView.backBttn.addTarget(self, action: Selector(("popVCFromNav")) , for: .touchUpInside)
-        navBarView.searchBttn.addTarget(self, action: Selector(("findMov")) , for: .touchUpInside)
+        navBarView.searchBttn.addTarget(self, action: #selector(self.findMov) , for: .touchUpInside)
         navBarView.searchBttn.isHidden = false
         
-        self.loading()
-        moviewSearchViewModel.searchMovies()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.001, execute: {
+            self.loading()
+            self.moviewSearchViewModel.searchMovies()
+        })
+       
     }
     
 
@@ -121,7 +124,7 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
     var numberOfItemsInRow,edgeInset:CGFloat
     
         
-         edgeInset = 10
+         edgeInset = 20
          numberOfItemsInRow = 2
    
     
@@ -129,27 +132,23 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
     let availableWidth = collectionView.frame.size.width-paddingSpace
     let widthPerItem = availableWidth/numberOfItemsInRow
    
-    return CGSize(width: widthPerItem,height: 180)
+    return CGSize(width: widthPerItem,height: 250)
   }
 
 
 
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      insetForSectionAt section: Int) -> UIEdgeInsets {
-    
-          return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+  func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,insetForSectionAt section: Int) -> UIEdgeInsets {
+
+          return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
   }
 
 
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
   }
-    
+//
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
+
                return 20
     }
 }

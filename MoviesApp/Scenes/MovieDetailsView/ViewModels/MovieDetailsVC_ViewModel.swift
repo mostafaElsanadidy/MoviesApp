@@ -32,6 +32,13 @@ final class MovieDetailsList_VM{
 
 extension MovieDetailsList_VM{
     
+    func viewDidLoad(){
+        self.getMovieDetails()
+        self.getMovieRecommendations()
+        self.getMovieVideos()
+        self.getMovieCasts()
+    }
+    
     func getMovieDetails(){
       //              self.loading()
         guard let movieID = movieID.value else { return }

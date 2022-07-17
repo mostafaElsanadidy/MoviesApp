@@ -1,6 +1,6 @@
 platform :ios, '10.0'
 use_frameworks!
-
+#pods
 target 'MoviesApp' do
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 5.2'

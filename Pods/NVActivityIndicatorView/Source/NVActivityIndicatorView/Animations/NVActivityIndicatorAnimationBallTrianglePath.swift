@@ -52,7 +52,7 @@ class NVActivityIndicatorAnimationBallTrianglePath: NVActivityIndicatorAnimation
         animation.isRemovedOnCompletion = false
 
         // Top-center circle
-        let topCenterCircle = NVActivityIndicatorShape.ring.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
+        let topCenterCircle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: #colorLiteral(red: 0.993026793, green: 0.7819573283, blue: 0.195245266, alpha: 1))
 
         changeAnimation(animation, values: ["{0,0}", "{hx,fy}", "{-hx,fy}", "{0,0}"], deltaX: deltaX, deltaY: deltaY)
         topCenterCircle.frame = CGRect(x: x + size.width / 2 - circleSize / 2, y: y, width: circleSize, height: circleSize)
@@ -60,7 +60,7 @@ class NVActivityIndicatorAnimationBallTrianglePath: NVActivityIndicatorAnimation
         layer.addSublayer(topCenterCircle)
 
         // Bottom-left circle
-        let bottomLeftCircle = NVActivityIndicatorShape.ring.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
+        let bottomLeftCircle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: #colorLiteral(red: 0.1401897073, green: 0.1716884375, blue: 0.2495550513, alpha: 1))
 
         changeAnimation(animation, values: ["{0,0}", "{hx,-fy}", "{fx,0}", "{0,0}"], deltaX: deltaX, deltaY: deltaY)
         bottomLeftCircle.frame = CGRect(x: x, y: y + size.height - circleSize, width: circleSize, height: circleSize)
@@ -68,7 +68,7 @@ class NVActivityIndicatorAnimationBallTrianglePath: NVActivityIndicatorAnimation
         layer.addSublayer(bottomLeftCircle)
 
         // Bottom-right circle
-        let bottomRightCircle = NVActivityIndicatorShape.ring.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
+        let bottomRightCircle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: #colorLiteral(red: 0.9336013794, green: 0.4454799891, blue: 0.2225066423, alpha: 1))
 
         changeAnimation(animation, values: ["{0,0}", "{-fx,0}", "{-hx,-fy}", "{0,0}"], deltaX: deltaX, deltaY: deltaY)
         bottomRightCircle.frame = CGRect(x: x + size.width - circleSize, y: y + size.height - circleSize, width: circleSize, height: circleSize)

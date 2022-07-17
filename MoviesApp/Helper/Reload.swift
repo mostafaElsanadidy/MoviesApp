@@ -2,37 +2,11 @@
 //  Reload.swift
 //  MadeInKuwait
 //
-//  Created by Amir on 1/29/20.
-//  Copyright © 2020 Amir. All rights reserved.
+//  Created by mostafa elsanadidy on 1/29/22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
-
-extension AppDelegate {
-    
-    func isLoggedIn() -> Bool {
-        
-        if let x = UserDefaults.standard.object(forKey: "Logged") as? String {
-            if x.isEmpty {
-                return false
-            }else{
-                return true
-            }
-        }
-        else {
-            return false
-        }
-    }
-    
-    func goToHomeVC() {
-        goToHomeVC(window: ad.window!)
-    }
-    
-}
-
-
-
-
 
 protocol ReloadDelegate {
     func goToHomeVC(window:UIWindow)
@@ -66,9 +40,7 @@ extension ReloadDelegate {
                 if let window = (delegate as? SceneDelegate)?.window {
                     window.rootViewController =  navController
                     window.makeKeyAndVisible()
-                    
                 }
-                
             }
             else {
                 rootviewcontroller.rootViewController =  navController

@@ -2,8 +2,8 @@
 //  MainDiscoveryVC.swift
 //  MoviesApp
 //
-//  Created by mostafa elsanadidy on 10/10/20.
-//  Copyright © 2020 mostafa elsanadidy. All rights reserved.
+//  Created by mostafa elsanadidy on 04.07.22.
+//  Copyright © 2022 mostafa elsanadidy. All rights reserved.
 //
 
 import UIKit
@@ -20,7 +20,7 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
     var indxOf_ShowAllCells:[Int] = []
     var indxOf_MovImagCells:[Int] = []
     
-    var movieMainViewModel = MovieList_VM()
+    private var movieMainViewModel = MovieList_VM()
     
     
     override func viewDidLoad() {
@@ -107,7 +107,7 @@ class MainDiscoveryVC: UIViewController,Storyboarded{
             guard let strongSelf = self
                     ,!movies.isEmpty else {return}
             DispatchQueue.main.async{
-                strongSelf.coordinator?.childShowMoreMovies(with: movies ?? [])
+                strongSelf.coordinator?.childShowMoreMovies(with: movies)
             }
         }
     }
